@@ -10,8 +10,7 @@ const User = require("./models/User");
 const bcrypt = require("bcryptjs");
 const auth = require("./middleware/auth");
 const jwt = require("jsonwebtoken");
-
-const SECRET = "travelbharat_secret";
+const SECRET = process.env.JWT_SECRET;
 
 const app = express();
 
