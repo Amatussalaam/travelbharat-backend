@@ -21,11 +21,14 @@ mongoose.connect(process.env.MONGO_URI)
 .catch(err => console.log("MongoDB Error ❌", err));
 // ================= MIDDLEWARE =================
 app.use(cors({
-    origin:  "*",
+    origin: [
+        "http://127.0.0.1:5500",
+        "http://localhost:5500",
+        "https://travelbharat007.netlify.app/"
+    ],
     methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"]
+    credentials: true
 }));
-app.options('*', cors());
 app.use(express.json());
 
 // ================= TEST ROUTE =================
