@@ -21,10 +21,11 @@ mongoose.connect(process.env.MONGO_URI)
 .catch(err => console.log("MongoDB Error ❌", err));
 // ================= MIDDLEWARE =================
 app.use(cors({
-    origin:  ["https://your-netlify-site.netlify.app"],
+    origin:  "*",
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"]
 }));
+app.options('*', cors());
 app.use(express.json());
 
 // ================= TEST ROUTE =================
