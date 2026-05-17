@@ -26,9 +26,11 @@ app.use(cors({
         "http://localhost:5500",
         "https://travelbharat007.netlify.app"
     ],
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true
 }));
+
+app.options("*", cors());
 app.use(express.json());
 
 // ================= TEST ROUTE =================
