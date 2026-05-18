@@ -386,7 +386,7 @@ console.log("Login Data:", req.body);
     }catch(err){
         console.log("LOGIN ERROR:", err); 
         res.json({ success:false,
-            message : "Server Error during login ❌"
+            message : err.message
          });
     }
 });
