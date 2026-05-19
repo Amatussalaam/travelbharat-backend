@@ -1,15 +1,11 @@
 const jwt = require("jsonwebtoken");
 
-const SECRET = process.env.JWT_SECRET;
-
 function auth(req, res, next){
 
     try{
 
-        // ✅ GET HEADER
         const authHeader = req.headers.authorization;
 
-        // ❌ NO HEADER
         if(!authHeader){
             return res.status(401).json({
                 success: false,
@@ -17,21 +13,15 @@ function auth(req, res, next){
             });
         }
 
-        // ✅ REMOVE "Bearer "
-        const token = authHeader.split(" ")[1];
+        // ✅ GET TOKEN DIRECTLY
+        const token = authHeader;
 
-        // ❌ TOKEN NOT FOUND
-        if(!token){
-            return res.status(401).json({
-                success: false,
-                message: "Invalid token format ❌"
-            });
-        }
+        // ✅ VERIFY
+        const decoded = jwt.verify(
+            token,
+            process.env.JWT_SECRET
+        );
 
-        // ✅ VERIFY TOKEN
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-        // ✅ SAVE USER
         req.user = decoded;
 
         next();
@@ -48,7 +38,3 @@ function auth(req, res, next){
 }
 
 module.exports = auth;
-
-
-
-
