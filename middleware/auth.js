@@ -1,24 +1,54 @@
 const jwt = require("jsonwebtoken");
 
-const SECRET = "travelbharat_secret";
+const SECRET = process.env.JWT_SECRET;
 
 function auth(req, res, next){
 
-const token = req.headers.authorization.split(" ")[1];
-    if(!token){
-        return res.status(401).json({ message: "No token ❌" });
-    }
-
     try{
+
+        // ✅ GET HEADER
+        const authHeader = req.headers.authorization;
+
+        // ❌ NO HEADER
+        if(!authHeader){
+            return res.status(401).json({
+                success: false,
+                message: "No token ❌"
+            });
+        }
+
+        // ✅ REMOVE "Bearer "
+        const token = authHeader.split(" ")[1];
+
+        // ❌ TOKEN NOT FOUND
+        if(!token){
+            return res.status(401).json({
+                success: false,
+                message: "Invalid token format ❌"
+            });
+        }
+
+        // ✅ VERIFY TOKEN
         const decoded = jwt.verify(token, SECRET);
 
-        req.user = decoded; // 🔥 IMPORTANT
+        // ✅ SAVE USER
+        req.user = decoded;
 
         next();
 
     }catch(err){
-        return res.status(401).json({ message: "Invalid token ❌" });
+
+        console.log("AUTH ERROR:", err);
+
+        return res.status(401).json({
+            success: false,
+            message: "Invalid token ❌"
+        });
     }
 }
 
 module.exports = auth;
+
+
+
+
