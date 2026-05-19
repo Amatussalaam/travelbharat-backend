@@ -29,6 +29,7 @@ mongoose.connect(process.env.MONGO_URI, {
 });
 
 console.log("MONGO URI:", process.env.MONGO_URI);
+console.log("DATABASE NAME:", mongoose.connection.name);
 // ================= MIDDLEWARE =================
 app.use(cors({
     origin: [
