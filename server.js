@@ -5,9 +5,8 @@ const express = require("express");
 const cors = require("cors");
 const distances = require("./distances");
 const Booking = require("./models/booking");
-
+const Contact = require("./models/contact");
 const User = require("./models/user");
-console.log("USER MODEL:", User);
 const bcrypt = require("bcryptjs");
 const auth = require("./middleware/auth");
 const jwt = require("jsonwebtoken");
@@ -28,8 +27,6 @@ mongoose.connect(process.env.MONGO_URI, {
     console.log(err);
 });
 
-console.log("MONGO URI:", process.env.MONGO_URI);
-console.log("DATABASE NAME:", mongoose.connection.name);
 // ================= MIDDLEWARE =================
 app.use(cors({
     origin: [
@@ -67,18 +64,37 @@ app.get("/", (req, res) => {
 });
 
 // ================= CONTACT API =================
-app.post("/contact", (req, res) => {
-    const { name, email, message } = req.body;
+app.post("/contact", async(req,res)=>{
 
-    console.log("📩 CONTACT RECEIVED:");
-    console.log(name, email, message);
+    try{
+console.log(req.body);
+        const { name, email, message } = req.body;
 
-    res.json({
-        success: true,
-        message: "Message received successfully ✅"
-    });
+        // SAVE TO DATABASE
+        const newMessage = new Contact({
+            name,
+            email,
+            message
+        });
+
+        await newMessage.save();
+console.log("MESSAGE SAVED ✅");
+        res.json({
+            success:true,
+            message:"Message received successfully ✅"
+        });
+
+    }catch(err){
+
+        console.log("CONTACT ERROR:",err);
+
+        res.status(500).json({
+            success:false,
+            message:"Server error ❌"
+        });
+    }
+
 });
-
 
 
 // ================= BOOKING API =================
