@@ -11,6 +11,7 @@ const bcrypt = require("bcryptjs");
 const auth = require("./middleware/auth");
 const jwt = require("jsonwebtoken");
 const SECRET = process.env.JWT_SECRET;
+const Feedback = require("./models/feedback");
 
 const app = express();
 
@@ -510,3 +511,37 @@ app.delete("/delete-account", auth, async (req, res) => {
     }
 });
 
+app.post("/feedback", auth, async(req,res)=>{
+
+    try{
+
+        const user = req.user;
+
+        const newFeedback = new Feedback({
+
+            userId:user.id,
+            name:user.name,
+            email:user.email,
+
+            rating:req.body.rating,
+            feedback:req.body.feedback
+
+        });
+
+        await newFeedback.save();
+
+        res.json({
+            success:true,
+            message:"Feedback saved ❤️"
+        });
+
+    }catch(err){
+
+        console.log(err);
+
+        res.status(500).json({
+            success:false,
+            message:"Server error"
+        });
+    }
+});
