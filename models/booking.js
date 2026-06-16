@@ -7,8 +7,14 @@ const bookingSchema = new mongoose.Schema({
     },
 
     type: String,
+
+    // User selected values
     from: String,
     to: String,
+
+    // Converted states used for distance calculation
+    fromState: String,
+    toState: String,
 
     adults: Number,
     children: Number,
