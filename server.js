@@ -12,7 +12,7 @@ const bcrypt = require("bcryptjs");
 const auth = require("./middleware/auth");
 const jwt = require("jsonwebtoken");
 const SECRET = process.env.JWT_SECRET;
-const Feedback = require("./models/Feedback");
+const Feedback = require("./models/feedback");
 
 const app = express();
 
