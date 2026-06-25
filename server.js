@@ -277,23 +277,25 @@ app.get("/bookings", auth, async (req, res) => {
     }
 });
 // ================FEEDBACK=================
-app.post("/feedback", auth, async (req, res) => {
-    try {
-        const newFeedback = new Feedback({
-            userId: req.user.id,
-            name: req.body.name,
-            email: req.body.email,
-            rating: req.body.rating,
-            feedback: req.body.feedback
-        });
+const User = require("./models/User");
 
-        await newFeedback.save();
+app.post("/feedback", auth, async (req,res)=>{
 
-        res.json({ success: true, message: "Feedback saved" });
+    const user = await User.findById(req.user.id);
+    const newFeedback = new Feedback({
+        userId:req.user.id,
+        name:user.name,
+        email:user.email,
+        rating:req.body.rating,
+        feedback:req.body.feedback
+    });
 
-    } catch (err) {
-        res.status(500).json({ success: false });
-    }
+    await newFeedback.save();
+
+    res.json({
+        success:true
+    });
+
 });
 // ================= SERVER START =================
 const PORT = process.env.PORT || 3000;
