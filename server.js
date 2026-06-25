@@ -277,7 +277,6 @@ app.get("/bookings", auth, async (req, res) => {
     }
 });
 // ================FEEDBACK=================
-const User = require("./models/User");
 
 app.post("/feedback", auth, async (req,res)=>{
 
