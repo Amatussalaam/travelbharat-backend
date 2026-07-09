@@ -43,7 +43,7 @@ app.use(cors({
     origin: [
         "http://127.0.0.1:5500",
         "http://localhost:5500",
-        "https://travelbharat007.netlify.app",//one frontend should be remove from here
+        "https://travelbharat02.netlify.app",//one frontend should be remove from here
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true
