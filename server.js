@@ -42,7 +42,11 @@ function normalizePlace(name) {
 app.use(cors({
     origin: [
         "http://127.0.0.1:5500",
+
+        "http://127.0.0.1:5501",
         "http://localhost:5500",
+
+        "http://localhost:5501",
         "https://travelbharat02.netlify.app",//one frontend should be remove from here
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
@@ -454,7 +458,6 @@ const deleted = await Booking.findOneAndDelete(filter);
 
 //////////////SIGN UP API /////////////////////////
 app.post("/signup", async (req, res) => {
-console.log("REQ BODY:", req.body);
     const { name, email, address, password } = req.body;
 
     try{
@@ -487,7 +490,6 @@ const user = new User({
 
 ///////////////////LOGIN API ////////////////////
 app.post("/login", async (req, res) => {
-console.log("Login Data:", req.body);
     const { email, password } = req.body;
 
     try{
